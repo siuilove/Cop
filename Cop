@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>💕 Вопросы для двоих</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:12px;color:#fff}
+h1{font-size:1.6rem;margin:8px 0 3px;text-align:center;font-weight:700}
+p.sub{color:rgba(255,255,255,.55);font-size:.85rem;margin-bottom:10px;text-align:center}
+.stats{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;justify-content:center}
+.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:5px 12px;font-size:.75rem;color:rgba(255,255,255,.8)}
+.stat b{color:#ff6b81;font-weight:700}
+.filters{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;justify-content:center;max-width:100%}
+.fbtn{background:rgba(255,255,255,.06);border:2px solid transparent;color:rgba(255,255,255,.65);padding:5px 11px;border-radius:18px;cursor:pointer;font-size:.72rem;font-weight:600;transition:.15s;outline:none;-webkit-appearance:none}
+.fbtn:active{transform:scale(.95)}
+.fbtn.a{border-color:#e94560;background:rgba(233,69,96,.18);color:#fff}
+.fbtn[data-c="light"].a{border-color:#55efc4;background:rgba(85,239,196,.15)}
+.fbtn[data-c="deep"].a{border-color:#fd79a8;background:rgba(253,121,168,.15)}
+.fbtn[data-c="fun"].a{border-color:#ffeaa7;background:rgba(255,234,167,.18);color:#fff}
+.fbtn[data-c="prov"].a{border-color:#ff7675;background:rgba(255,118,117,.15)}
+.fbtn[data-c="couple"].a{border-color:#74b9ff;background:rgba(116,185,255,.15)}
+.fbtn[data-c="ind"].a{border-color:#fab1a0;background:rgba(250,177,160,.15)}
+.game{position:relative;width:100%;max-width:400px;height:280px;margin:0 auto}
+.deck{position:absolute;width:100%;height:100%;display:flex;justify-content:center;align-items:center;z-index:10}
+.dcard{position:absolute;width:90%;max-width:360px;height:240px;background:linear-gradient(145deg,#2d3436,#1a1a2e);border-radius:16px;border:2px solid rgba(233,69,96,.2);display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:0 10px 35px rgba(0,0,0,.3);transition:transform .3s ease}
+.dcard:nth-child(1){transform:rotate(-1.5deg) translateY(0)}
+.dcard:nth-child(2){transform:rotate(1deg) translateY(-3px);z-index:-1;opacity:.85}
+.dcard:nth-child(3){transform:rotate(-.5deg) translateY(-6px);z-index:-2;opacity:.7}
+.dicon{font-size:2.2rem;margin-bottom:8px}
+.dtxt{color:rgba(255,255,255,.8);font-size:1rem;font-weight:600;text-align:center;padding:0 16px;line-height:1.3}
+.dsub{color:rgba(255,255,255,.4);font-size:.75rem;margin-top:5px}
+.card-wrap{position:absolute;width:100%;height:100%;display:flex;justify-content:center;align-items:center;opacity:0;pointer-events:none;transform:scale(.9);transition:all .4s cubic-bezier(.34,1.56,.64,1);z-index:20}
+.card-wrap.show{opacity:1;pointer-events:all;transform:scale(1)}
+.qcard{width:90%;max-width:380px;min-height:260px;background:#fff;border-radius:18px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 14px 45px rgba(0,0,0,.4);position:relative;overflow:hidden}
+.qcard::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.c-light::before{background:#00b894}
+.c-deep::before{background:#e84393}
+.c-fun::before{background:#fdcb6e}
+.c-prov::before{background:#d63031}
+.c-couple::before{background:#0984e3}
+.c-ind::before{background:#e17055}
+.cat{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:10px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:10px;align-self:flex-start}
+.c-light .cat{background:rgba(0,184,148,.1);color:#00b894}
+.c-deep .cat{background:rgba(232,67,147,.1);color:#e84393}
+.c-fun .cat{background:rgba(253,203,110,.2);color:#b8860b}
+.c-prov .cat{background:rgba(214,48,49,.1);color:#d63031}
+.c-couple .cat{background:rgba(9,132,227,.1);color:#0984e3}
+.c-ind .cat{background:rgba(225,112,85,.12);color:#e17055}
+.qtxt{font-family:Georgia,'Times New Roman',serif;font-size:1.15rem;color:#2d3436;line-height:1.45;flex-grow:1;display:flex;align-items:center;word-break:break-word}
+.qnum{position:absolute;bottom:10px;right:16px;font-size:.68rem;color:#b2bec3}
+.btns{display:flex;gap:8px;margin-top:14px}
+.btn{flex:1;padding:10px;border:none;border-radius:10px;font-size:.85rem;font-weight:700;cursor:pointer;transition:.15s;outline:none;-webkit-appearance:none}
+.btn:active{transform:scale(.97)}
+.bskip{background:#f1f2f6;color:#636e72}
+.bnext{background:linear-gradient(135deg,#e94560,#ff6b81);color:#fff}
+.done-wrap{position:absolute;width:100%;height:100%;display:flex;justify-content:center;align-items:center;opacity:0;pointer-events:none;transform:scale(.9);transition:all .4s ease;z-index:30}
+.done-wrap.show{opacity:1;pointer-events:all;transform:scale(1)}
+.dcard2{width:90%;max-width:380px;background:#fff;border-radius:18px;padding:28px;text-align:center;box-shadow:0 14px 45px rgba(0,0,0,.4)}
+.dcard2 h2{font-family:Georgia,serif;color:#2d3436;margin-bottom:6px;font-size:1.3rem}
+.dcard2 p{color:#636e72;margin-bottom:18px;font-size:.9rem}
+.brestart{background:linear-gradient(135deg,#e94560,#ff6b81);color:#fff;padding:11px 28px;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;outline:none;-webkit-appearance:none}
+.footer{margin-top:12px;color:rgba(255,255,255,.3);font-size:.7rem;text-align:center;padding-bottom:20px}
+.hidden{display:none !important}
+@media(max-width:380px){h1{font-size:1.4rem}.qtxt{font-size:1.05rem}.game{height:260px}.dcard{height:220px}}
+</style>
+</head>
+<body>
+<h1>💕 Вопросы для двоих</h1>
+<p class="sub">Игра, которая сближает</p>
+<div class="stats">
+<div class="stat">📦 Всего: <b id="t">0</b></div>
+<div class="stat">✅ Пройдено: <b id="d">0</b></div>
+<div class="stat">🎯 Осталось: <b id="l">0</b></div>
+</div>
+<div class="filters">
+<button class="fbtn a" data-c="all" onclick="setF('all')">Все</button>
+<button class="fbtn" data-c="light" onclick="setF('light')">🌿 Лёгкие</button>
+<button class="fbtn" data-c="deep" onclick="setF('deep')">🌙 Глубокие</button>
+<button class="fbtn" data-c="fun" onclick="setF('fun')">🎉 Весёлые</button>
+<button class="fbtn" data-c="prov" onclick="setF('prov')">🔥 Провокационные</button>
+<button class="fbtn" data-c="couple" onclick="setF('couple')">💞 Про нас</button>
+<button class="fbtn" data-c="ind" onclick="setF('ind')">🪞 Личные</button>
+</div>
+<div class="game">
+<div class="deck" id="deck" onclick="draw()">
+<div class="dcard"><div class="dicon">🎴</div><div class="dtxt">Нажми, чтобы вытянуть карточку</div><div class="dsub">230+ вопросов ждут вас</div></div>
+<div class="dcard" style="z-index:-1"><div class="dicon">💖</div><div class="dtxt">Нажми, чтобы вытянуть карточку</div><div class="dsub">230+ вопросов ждут вас</div></div>
+<div class="dcard" style="z-index:-2"><div class="dicon">✨</div><div class="dtxt">Нажми, чтобы вытянуть карточку</div><div class="dsub">230+ вопросов ждут вас</div></div>
+</div>
+<div class="card-wrap" id="cardWrap">
+<div class="qcard" id="qcard">
+<div>
+<div class="cat" id="cat">Категория</div>
+<div class="qtxt" id="qtxt">Вопрос</div>
+</div>
+<div class="qnum" id="qnum">#1</div>
+<div class="btns">
+<button class="btn bskip" onclick="skip()">⏭ Пропустить</button>
+<button class="btn bnext" onclick="next()">✨ Следующий</button>
+</div>
+</div>
+</div>
+<div class="done-wrap" id="doneWrap">
+<div class="dcard2">
+<div style="font-size:2.2rem;margin-bottom:6px">🎉</div>
+<h2>Все вопросы пройдены!</h2>
+<p>Вы отлично провели время вместе. Начнём заново?</p>
+<button class="brestart" onclick="restart()">🔄 Начать сначала</button>
+</div>
+</div>
+</div>
+<div class="footer">Сохраните файл — обновления можно получить у ИИ-ассистента</div>
+<script>
+(function(){
+'use strict';
+var questions = [
+{q:"Какой запах мгновенно поднимает тебе настроение?",c:"light"},{q:"Какой завтрак ты считаешь идеальным?",c:"light"},{q:"Какая погода твоя самая любимая?",c:"light"},{q:"Какой цвет ассоциируется у тебя с настроением прямо сейчас?",c:"light"},{q:"Какой напиток ты выбираешь, когда хочешь расслабиться?",c:"light"},{q:"Какое время суток тебе нравится больше всего?",c:"light"},{q:"Какой сезон года твой любимый и почему?",c:"light"},{q:"Какой жанр музыки ты слушаешь чаще всего?",c:"light"},{q:"Какой запах свечи или благовоний тебе нравится?",c:"light"},{q:"Какой фрукт ты мог бы есть каждый день?",c:"light"},{q:"Какой вид транспорта тебе ближе всего?",c:"light"},{q:"Какое животное тебе кажется самым милым?",c:"light"},{q:"Какой аромат кофе или чая ты предпочитаешь?",c:"light"},{q:"Какая комната в доме твоя любимая?",c:"light"},{q:"Какой звук природы тебя успокаивает?",c:"light"},{q:"Какой десерт ты никогда не откажешься попробовать?",c:"light"},{q:"Какой стиль одежды тебе комфортнее всего?",c:"light"},{q:"Какое растение или цветок ты хотел бы вырастить?",c:"light"},{q:"Какой запах ассоциируется у тебя с детством?",c:"light"},{q:"Какое блюдо ты умеешь готовить лучше всего?",c:"light"},{q:"Если бы ты мог выучить любой язык мгновенно, какой бы выбрал?",c:"light"},{q:"Какой предмет в доме у тебя самый старый?",c:"light"},{q:"Какой запах тебе совершенно неприятен?",c:"light"},{q:"Какой твой любимый способ провести вечер пятницы?",c:"light"},{q:"Какой сорт мороженого твой любимый?",c:"light"},{q:"Какой запах у тебя ассоциируется со мной?",c:"light"},{q:"Что гарантированно может поднять тебе настроение?",c:"light"},{q:"Какой фильм или песня могут растрогать тебя?",c:"light"},{q:"Какая мелочь способна тебе напомнить о хорошем?",c:"light"},{q:"Какое занятие успокаивает тебя больше всего?",c:"light"},{q:"Какое место, где ты побывал, описано хуже всего в путеводителях, но оказалось самым интересным?",c:"light"},{q:"Во что ты любишь погружаться с головой, забывая о времени?",c:"light"},{q:"Какую книгу/фильм/сериал ты считаешь сильно недооцененным и почему?",c:"light"},{q:"Какой самый интересный факт ты когда-то слышал?",c:"light"},{q:"Что мотивирует тебя вставать утром даже в сложные дни?",c:"light"},
+{q:"Что для тебя значит быть по-настоящему счастливым?",c:"deep"},{q:"Какое событие в твоей жизни сильнее всего изменило тебя?",c:"deep"},{q:"Чего ты боишься больше всего в жизни?",c:"deep"},{q:"Какой совет ты бы дал себе 10 лет назад?",c:"deep"},{q:"Что для тебя важнее — справедливость или прощение?",c:"deep"},{q:"Как ты понимаешь смысл жизни?",c:"deep"},{q:"Какое качество в людях ты ценишь больше всего?",c:"deep"},{q:"Что ты хотел бы изменить в своём характере?",c:"deep"},{q:"Как ты справляешься с одиночеством?",c:"deep"},{q:"Какое твоё самое большое достижение в жизни?",c:"deep"},{q:"Что для тебя означает слово 'свобода'?",c:"deep"},{q:"Как ты относишься к смерти и конечности?",c:"deep"},{q:"Какой момент в жизни ты бы хотел пережить снова?",c:"deep"},{q:"Что делает тебя по-настоящему уязвимым?",c:"deep"},{q:"Как ты определяешь, что живёшь правильно?",c:"deep"},{q:"Какое твоё скрытое желание ты редко озвучиваешь?",c:"deep"},{q:"Что для тебя важнее — быть любимым или любить?",c:"deep"},{q:"Как ты справляешься с чувством вины?",c:"deep"},{q:"Какое убеждение ты держишься, несмотря ни на что?",c:"deep"},{q:"Что ты хотел бы, чтобы люди знали о тебе после твоей смерти?",c:"deep"},{q:"Что для тебя означает слово 'дом'?",c:"deep"},{q:"Как ты относишься к прощению обид?",c:"deep"},{q:"Что ты считаешь своим главным жизненным уроком?",c:"deep"},{q:"Как ты справляешься с разочарованием?",c:"deep"},{q:"Что для тебя важнее — быть правым или быть добрым?",c:"deep"},{q:"В чём ты совершенно не согласен с мнением большинства?",c:"deep"},{q:"Как ты реагируешь на критику?",c:"deep"},{q:"Готов ли ты рискнуть тем, что имеешь, ради чего-то нового?",c:"deep"},{q:"Как ты относишься к изменениям в жизни?",c:"deep"},{q:"Что для тебя означает быть счастливым?",c:"deep"},{q:"Как ты представляешь свою идеальную жизнь через десять лет?",c:"deep"},{q:"Что тебя действительно задевает?",c:"deep"},{q:"Если бы у тебя был выбор между работой и семьёй, что бы ты выбрал?",c:"deep"},{q:"Что бы ты сделал, если бы у тебя был один день, когда никто не мог узнать о твоих действиях?",c:"deep"},{q:"Какие вещи тебя действительно задевают?",c:"deep"},
+{q:"Если бы ты мог быть супергероем, какая у тебя была бы суперсила?",c:"fun"},{q:"Какой мультфильм из детства ты готов пересматривать бесконечно?",c:"fun"},{q:"Если бы мы открыли совместный бар, как бы он назывался?",c:"fun"},{q:"Какую песню ты бы спел на караоке, даже если плохо поёшь?",c:"fun"},{q:"Если бы ты мог поменяться телами на день, кем бы стал?",c:"fun"},{q:"Какой фильм ты считаешь настолько плохим, что он уже хорош?",c:"fun"},{q:"Если бы у тебя был миллион долларов и неделя на всё, что бы ты сделал?",c:"fun"},{q:"Какую еду ты бы взял на необитаемый остров?",c:"fun"},{q:"Если бы ты мог заговорить с животными, кого бы спросил первым?",c:"fun"},{q:"Какой танец ты бы выучил, если бы никто не видел?",c:"fun"},{q:"Если бы мы были персонажами видеоигры, какие у нас были бы способности?",c:"fun"},{q:"Какой самый странный сон ты когда-либо видел?",c:"fun"},{q:"Если бы ты мог есть только одно блюдо месяц, что бы выбрал?",c:"fun"},{q:"Какую знаменитость ты бы хотел пригласить на ужин?",c:"fun"},{q:"Если бы у тебя был личный дворецкий, что бы ты попросил первым?",c:"fun"},{q:"Какой самый нелепый факт ты знаешь?",c:"fun"},{q:"Если бы ты мог путешествовать во времени, куда бы отправился?",c:"fun"},{q:"Какой предмет в доме у тебя самый странный?",c:"fun"},{q:"Если бы ты был призраком, кого бы первым напугал?",c:"fun"},{q:"Какой конкурс реалити-шоу ты бы точно выиграл?",c:"fun"},{q:"Если бы ты мог иметь любого питомца, кого бы выбрал?",c:"fun"},{q:"Какой мем или шутка тебя всегда рассмешит?",c:"fun"},{q:"Если бы ты мог жить в любом вымышленном мире, каком?",c:"fun"},{q:"Какую суперсилу ты бы точно НЕ хотел иметь?",c:"fun"},{q:"Если бы мы могли поменяться ролями на день, что бы ты сделал первым?",c:"fun"},{q:"Если бы я был(а) мемом, то каким?",c:"fun"},{q:"Если бы мы жили в мире Гарри Поттера, то кем бы мы были?",c:"fun"},{q:"Если бы до конца жизни тебе предстояло есть одно и то же блюдо, что бы ты выбрал?",c:"fun"},{q:"Если бы у тебя было три желания, которые точно сбудутся, что бы ты загадал?",c:"fun"},{q:"Если бы мы оказались в экстремальной ситуации, кто бы первым придумал план спасения?",c:"fun"},{q:"Если бы меня задержали, какой бы была твоя первая версия — за что?",c:"fun"},{q:"Если бы тебе предложили принять участие в реалити-шоу, какое бы ты выбрал?",c:"fun"},{q:"Если бы ты мог обменяться жизнью с кем-то на один день, кого бы ты выбрал?",c:"fun"},{q:"Если бы ты был баснословно богат, что бы сделал в первую очередь?",c:"fun"},{q:"Героем какой книги или фильма ты бы хотел стать?",c:"fun"},{q:"Если бы мы жили в мире 'Игры престолов', в каком доме ты бы жил?",c:"fun"},{q:"Если бы у тебя был целый свободный день и неограниченные ресурсы, чем бы ты занялся?",c:"fun"},{q:"Какой бесполезный навык ты бы освоил в совершенстве и почему именно его?",c:"fun"},{q:"Если бы ты мог стереть одну свою глупость из жизни — что бы это было?",c:"fun"},{q:"Что самое абсурдное ты делал, чтобы впечатлить кого-то?",c:"fun"},
+{q:"Что в наших отношениях ты бы хотел изменить прямо сейчас?",c:"prov"},{q:"Какая моя черта тебя иногда раздражает?",c:"prov"},{q:"Что ты никогда не простил бы в отношениях?",c:"prov"},{q:"Есть ли вещь, о которой ты мечтаешь, но боишься сказать?",c:"prov"},{q:"Как ты думаешь, что бы произошло, если бы мы расстались?",c:"prov"},{q:"Что для тебя важнее — страсть или стабильность?",c:"prov"},{q:"Как ты относишься к тайнам в отношениях?",c:"prov"},{q:"Что ты считаешь нашей самой большой проблемой как пары?",c:"prov"},{q:"Как ты думаешь, кто из нас меняется быстрее?",c:"prov"},{q:"Есть ли темы, которые ты избегаешь со мной? Почему?",c:"prov"},{q:"Что бы ты сделал, если бы узнал, что я соврал о чём-то важном?",c:"prov"},{q:"Как ты относишься к идее 'перерыва' в отношениях?",c:"prov"},{q:"Что ты скрываешь от меня, потому что боишься моей реакции?",c:"prov"},{q:"Как ты думаешь, наша любовь изменилась за 7 лет? В лучшую или худшую сторону?",c:"prov"},{q:"Что ты думаешь о моих родителях? Честно.",c:"prov"},{q:"Если бы завтра исчезла страсть между нами, что бы ты сделал?",c:"prov"},{q:"Какую границу ты никогда не позволишь мне переступить?",c:"prov"},{q:"Что ты думаешь о моём прошлом до тебя?",c:"prov"},{q:"Есть ли вещи, которые я делаю, и ты молчишь, хотя хочешь сказать?",c:"prov"},{q:"Как ты представляешь нашу жизнь через 20 лет? Честно.",c:"prov"},{q:"Что ты думаешь о моих друзьях?",c:"prov"},{q:"Как ты думаешь, кто из нас более эмоциональный?",c:"prov"},{q:"Есть ли вещи, которые ты делаешь ради меня, но не хочешь?",c:"prov"},{q:"Как ты думаешь, мы достаточно разговариваем о важном?",c:"prov"},{q:"Что ты думаешь о моей семье?",c:"prov"},{q:"Как ты думаешь, я изменился(ась) за эти годы? В чём именно?",c:"prov"},{q:"Если бы у тебя на память осталась только одна моя вещь, то какая?",c:"prov"},{q:"Если бы мы поменялись жизнями на сутки, что бы тебя больше всего вымотало?",c:"prov"},{q:"Что бы ты украл(а) из моего прошлого, чтобы нам было легче в настоящем?",c:"prov"},{q:"О чём ты перестал(а) беспокоиться, когда мы стали парой?",c:"prov"},{q:"Пугает ли тебя собственный успех?",c:"prov"},{q:"Когда ты в последний раз сдался(ась) и почему?",c:"prov"},{q:"Что ты хочешь, чтобы я всегда помнил(а) о тебе?",c:"prov"},{q:"Какая у тебя странная привычка, которую я, может быть, не замечаю?",c:"prov"},{q:"От чего тебе приходилось отказываться, чтобы выжить — в детстве, семье, школе?",c:"prov"},{q:"Чувствовал(а) ли ты себя ненужным или отвергнутым?",c:"prov"},{q:"Считаешь ли ты, что нас хорошо воспитали?",c:"prov"},{q:"Что тебя восхищает в других?",c:"prov"},{q:"В какой момент ты понял(а), что повзрослел(а)?",c:"prov"},{q:"Что тебя воодушевляет, когда ты вымотан(а) и не веришь в себя?",c:"prov"},
+{q:"Какой наш совместный момент ты считаешь самым важным?",c:"couple"},{q:"Какая наша традиция тебе дороже всего?",c:"couple"},{q:"Что в наших отношениях ты ценишь больше всего прямо сейчас?",c:"couple"},{q:"Как ты думаешь, что мы будем делать вместе, когда нам будет по 60?",c:"couple"},{q:"Какой наш спор был самым глупым?",c:"couple"},{q:"Как ты думаешь, что делает наши отношения уникальными?",c:"couple"},{q:"Какое наше совместное путешествие запомнилось тебе больше всего?",c:"couple"},{q:"Что я делаю, что заставляет тебя чувствовать себя любимым?",c:"couple"},{q:"Какой наш план на будущее тебе больше всего нравится?",c:"couple"},{q:"Как ты думаешь, мы похожи или противоположности притягиваются?",c:"couple"},{q:"Какое наше совместное фото тебе нравится больше всего?",c:"couple"},{q:"Как ты думаешь, кто из нас более романтичный?",c:"couple"},{q:"Какое наше совместное хобби ты хотел бы развивать?",c:"couple"},{q:"Что я делаю, что ты никогда не говоришь, но очень ценишь?",c:"couple"},{q:"Как ты думаешь, какую роль я играю в твоей жизни?",c:"couple"},{q:"Какое наше совместное воспоминание ты бы хотел пережить снова?",c:"couple"},{q:"Как ты думаешь, мы стали лучше как пара за эти 7 лет?",c:"couple"},{q:"Какую вещь о нас ты хотел бы рассказать своим детям?",c:"couple"},{q:"Как ты думаешь, что мы будем делать на пенсии?",c:"couple"},{q:"Какое наше совместное достижение ты гордишься больше всего?",c:"couple"},{q:"Какой наш разговор ты никогда не забудешь?",c:"couple"},{q:"Как ты думаешь, мы достаточно проводим времени вдвоём?",c:"couple"},{q:"Какое наше совместное решение было самым правильным?",c:"couple"},{q:"Как ты думаешь, что мы должны попробовать вместе?",c:"couple"},{q:"Какое наше совместное фото ты бы хотел повесить на стену?",c:"couple"},{q:"Если бы наши отношения были фильмом, то какого жанра?",c:"couple"},{q:"Если бы я потерялся(ась) в магазине, в каком отделе ты бы начал(а) меня искать в первую очередь?",c:"couple"},{q:"Продолжи фразу: 'Мне нравится, когда ты...'",c:"couple"},{q:"Какую песню ты считаешь нашей?",c:"couple"},{q:"Как мы выражаем любовь без слов?",c:"couple"},{q:"Когда тебе со мной особенно спокойно?",c:"couple"},{q:"Если бы я писал(а) тебе сообщение, от которого ты точно улыбнёшься, что бы там было?",c:"couple"},{q:"Назови свои red и green flags в отношениях.",c:"couple"},{q:"Чему бы ты хотел(а) меня научить?",c:"couple"},{q:"Есть ли у нас локальные мемы, которые заставляют смеяться до слёз?",c:"couple"},{q:"Как бы ты описал(а) меня тому, кто меня не знает?",c:"couple"},{q:"Что для тебя идеальная семейная жизнь?",c:"couple"},{q:"В какой момент я понял(а), что могу полностью положиться на тебя?",c:"couple"},{q:"Какой момент из нашего прошлого ты вспоминаешь чаще всего?",c:"couple"},{q:"Если бы тебе сказали, что ты похож(а) на меня, это был бы комплимент?",c:"couple"},
+{q:"Какая черта характера в тебе самая неожиданная для других?",c:"ind"},{q:"Какой момент из детства ты до сих пор помнишь с особенной теплотой?",c:"ind"},{q:"Что в тебе изменилось за последние 7 лет, и ты этому рад?",c:"ind"},{q:"Какой комплимент тебе запомнился на всю жизнь?",c:"ind"},{q:"Какую книгу ты считаешь изменившей твою жизнь?",c:"ind"},{q:"Какой навык ты мечтаешь освоить в ближайшие 5 лет?",c:"ind"},{q:"Какую профессию ты бы выбрал, если бы деньги не имели значения?",c:"ind"},{q:"Какое место на Земле ты считаешь своим духовным домом?",c:"ind"},{q:"Какой фильм или сериал ты пересматривал больше всего раз?",c:"ind"},{q:"Какой подарок ты получил и никогда не забыл?",c:"ind"},{q:"Какой твой самый странный страх?",c:"ind"},{q:"Какую песню ты считаешь 'своей' на данный момент?",c:"ind"},{q:"Какой твой идеальный день выглядит с утра до вечера?",c:"ind"},{q:"Какое хобби ты хотел бы попробовать, но всё откладываешь?",c:"ind"},{q:"Какой предмет из детства ты до сих пор хранишь?",c:"ind"},{q:"Какую страну ты мечтаешь посетить и почему именно её?",c:"ind"},{q:"Какой твой самый необычный талант?",c:"ind"},{q:"Какую вещь ты делаешь только когда никто не видит?",c:"ind"},{q:"Какой твой любимый способ провести выходной в одиночестве?",c:"ind"},{q:"Какое качество в себе ты хотел бы развить сильнее?",c:"ind"},{q:"Какой твой самый заветный мечта?",c:"ind"},{q:"Какой твой самый большой страх в жизни?",c:"ind"},{q:"Какой твой любимый способ заботиться о себе?",c:"ind"},{q:"Какой твой самый гордый момент?",c:"ind"},{q:"Какой твой любимый способ выражать любовь?",c:"ind"},{q:"Какой момент в жизни ты считаешь действительно переломным?",c:"ind"},{q:"Что самое интересное ты узнал о себе за последний год?",c:"ind"},{q:"Какая страна или место вдохновляет тебя больше всего?",c:"ind"},{q:"Какой полезный навык ты хотел бы освоить в ближайшее время?",c:"ind"},{q:"Какой фильм или книга изменили твоё отношение к жизни?",c:"ind"},{q:"Что ты считал(а) в детстве своим самым большим достижением?",c:"ind"},{q:"В какую свою детскую мечту ты до сих пор веришь?",c:"ind"},{q:"Что ты хотел бы попробовать, но пока не решаешься?",c:"ind"},{q:"Без чего ты точно не представляешь свою жизнь?",c:"ind"},{q:"О каком таланте ты мечтаешь?",c:"ind"},{q:"Если бы ты мог вернуть любой день — какой бы выбрал?",c:"ind"},{q:"Какой подарок ты считаешь самым ценным, даже если он был недорогим?",c:"ind"},{q:"Какое чувство тебе сложно показать другим?",c:"ind"},{q:"Какое событие в жизни заставило тебя по-настоящему гордиться собой?",c:"ind"},{q:"Какой самый смешной или странный случай знакомства у тебя был?",c:"ind"}
+];
+var catLabels = {light:{label:"🌿 Лёгкий",cls:"c-light"},deep:{label:"🌙 Глубокий",cls:"c-deep"},fun:{label:"🎉 Весёлый",cls:"c-fun"},prov:{label:"🔥 Провокационный",cls:"c-prov"},couple:{label:"💞 Про нас",cls:"c-couple"},ind:{label:"🪞 Личный",cls:"c-ind"}};
+var currentFilter = 'all', askedSet = {}, currentQ = null;
+function getFiltered(){if(currentFilter==='all'){var r=[];for(var i=0;i<questions.length;i++)r.push(i);return r}var r=[];for(var i=0;i<questions.length;i++){if(questions[i].c===currentFilter)r.push(i)}return r}
+function getAvailable(){var f=getFiltered(),r=[];for(var i=0;i<f.length;i++){if(!askedSet[f[i]])r.push(f[i])}return r}
+function updateStats(){var f=getFiltered(),a=getAvailable(),ac=0;for(var k in askedSet){if(askedSet[k])ac++}document.getElementById('t').textContent=f.length;document.getElementById('d').textContent=ac;document.getElementById('l').textContent=a.length}
+function draw(){var a=getAvailable();if(a.length===0){showDone();return}var idx=a[Math.floor(Math.random()*a.length)];askedSet[idx]=true;currentQ=questions[idx];var info=catLabels[currentQ.c];document.getElementById('qcard').className='qcard '+info.cls;document.getElementById('cat').textContent=info.label;document.getElementById('qtxt').textContent=currentQ.q;document.getElementById('qnum').textContent='#'+(idx+1);document.getElementById('deck').style.display='none';document.getElementById('cardWrap').classList.add('show');updateStats()}
+function skip(){if(currentQ){for(var i=0;i<questions.length;i++){if(questions[i]===currentQ){delete askedSet[i];break}}}next()}
+function next(){document.getElementById('cardWrap').classList.remove('show');setTimeout(function(){var a=getAvailable();if(a.length===0){showDone()}else{document.getElementById('deck').style.display='flex'}},350)}
+function showDone(){document.getElementById('cardWrap').classList.remove('show');document.getElementById('deck').style.display='none';document.getElementById('doneWrap').classList.add('show')}
+function restart(){askedSet={};currentQ=null;document.getElementById('doneWrap').classList.remove('show');document.getElementById('deck').style.display='flex';updateStats()}
+function setF(c){currentFilter=c;var btns=document.querySelectorAll('.fbtn');for(var i=0;i<btns.length;i++){if(btns[i].getAttribute('data-c')===c)btns[i].classList.add('a');else btns[i].classList.remove('a')}askedSet={};currentQ=null;document.getElementById('cardWrap').classList.remove('show');document.getElementById('doneWrap').classList.remove('show');document.getElementById('deck').style.display='flex';updateStats()}
+updateStats();
+})();
+</script>
+</body>
+</html>
